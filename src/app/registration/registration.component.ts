@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RestApiService } from "../rest-api.service";
 import { DataService } from "../data.service";
 import { Router } from "@angular/router";
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-registration',
@@ -30,23 +31,38 @@ export class RegistrationComponent implements OnInit {
             if (this.password === this.password1) {
               return true;
             } else {
-              this.data.error('Password do not match.');
+              Swal('Message!',
+                'Password do not match!',
+                'error');
+              //this.data.error('Password do not match.');
             }
 
           } else {
-            this.data.error('Confirmation password is not entered.');
+            Swal('Message!',
+              'Confirmation password is not entered!',
+              'error');
+            //this.data.error('Confirmation password is not entered.');
           }
 
         } else {
-          this.data.error('Password is not entered');
+          Swal('Message!',
+            'Password is not entered!',
+            'error');
+          //this.data.error('Password is not entered');
         }
 
       } else {
-        this.data.error('Email is not entered.');
+        Swal('Message!',
+          'Email is not entered!',
+          'error');
+        //this.data.error('Email is not entered.');
       }
 
     } else {
-      this.data.error('Name is not entered.');
+      Swal('Message!',
+        'Name is not entered!',
+        'error');
+      //this.data.error('Name is not entered.');
     }
   }
   async register() {
@@ -65,9 +81,18 @@ export class RegistrationComponent implements OnInit {
         );
         if (data['success']) {
           localStorage.setItem('token', data['token']);
-          this.data.success('Registered successfully!');
+          await this.data.getProfile();
+          this.router.navigate(['profile/address'])
+            .then(() => {
+              this.data.success(
+                'Successfully registered! Please enter you shipping address below.'
+              );
+            }).catch(error => this.data.error(error))
         } else {
-          this.data.error(data['message']);
+          Swal('Message!',
+            'Error occured!',
+            'error');
+          //this.data.error(data['message']);
         }
       }
 

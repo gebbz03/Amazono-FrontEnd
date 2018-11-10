@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { DataService } from "../data.service";
 import { RestApiService } from "../rest-api.service";
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-login',
@@ -30,11 +31,17 @@ export class LoginComponent implements OnInit {
       if(this.password){
         return true;
       }else{
-        this.data.error('Password is not entered.');
+        Swal('Message!',
+        'Password is not entered!',
+        'error');
+        //this.data.error('Password is not entered.');
       }
 
     }else{
-      this.data.error('Email is not entered');
+      Swal('Message!',
+      'Email is not entered!',
+      'error');
+      //this.data.error('Email is not entered');
     }
   }
 
@@ -53,9 +60,16 @@ async login(){
       );
       if(data['success']){
         localStorage.setItem('token',data['token']);
+        await this.data.getProfile();
         this.router.navigate(['/']);
+        Swal('Message!',
+        'Successfully logged in!',
+        'success');
       }else{
-        this.data.error(data['message']);
+        Swal('Message!',
+        'Login Failed!',
+        'error');
+        //this.data.error(data['message']);
       }
     }
 
