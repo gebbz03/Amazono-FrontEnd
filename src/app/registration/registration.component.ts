@@ -11,11 +11,11 @@ import { Router } from "@angular/router";
 export class RegistrationComponent implements OnInit {
   name = '';
   email = '';
-  password: '';
+  password = '';
   password1 = '';
   isSeller = false;
 
-  btnDisabled = true;
+  btnDisabled = false;
 
   constructor(private router: Router, private data: DataService, private rest: RestApiService) { }
 
@@ -59,7 +59,7 @@ export class RegistrationComponent implements OnInit {
             name: this.name,
             email: this.email,
             password: this.password,
-            isSeller: this.isSeller,
+            isSeller: this.isSeller
 
           }
         );
